@@ -15,6 +15,10 @@ struct ContentView: View {
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
+    var localCurrency: FloatingPointFormatStyle<Double>.Currency {
+        .currency(code: Locale.current.currencyCode ?? "USD")
+    }
+    
     var grandTotal: Double {
         let tipSelection = Double(tipPercentage)
         let tipValue = checkAmount / 100 * tipSelection
@@ -50,23 +54,23 @@ struct ContentView: View {
                 
                 Section {
                     Picker("Tip percentage", selection: $tipPercentage) {
-                        ForEach(tipPercentages, id: \.self) {
+                        ForEach(0..<101) {
                             Text($0, format: .percent)
                         }
                     }
-                    .pickerStyle(.segmented)
+                    .pickerStyle(.wheel)
                 } header: {
                     Text("How much would you like to tip?")
                 }
                 
                 Section {
-                    Text(grandTotal, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    Text(grandTotal, format: localCurrency)
                 } header: {
                     Text("Grand total")
                 }
                 
                 Section {
-                    Text(totalPerPerson, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    Text(totalPerPerson, format: localCurrency)
                 } header: {
                     Text("Amount per person")
                 }
