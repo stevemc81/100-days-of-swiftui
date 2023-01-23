@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var move = ["🪨", "📄", "✂️"]
+    @State private var move = ["rock", "paper", "scissors"]
     @State private var selectedMove = Int.random(in: 0...2)
     @State private var shouldWin = Bool.random()
     @State private var score = 0
@@ -41,7 +41,10 @@ struct ContentView: View {
                 HStack {
                     ForEach(0..<3) { number in
                         Button(move[number]) {
-                            print("Clicked \(move[number])")
+                            if determineResult(move: move[selectedMove], shouldWin: shouldWin, choice: move[number]) {
+                                score += 1
+                            }
+                            print("Score: \(score)")
                         }
                         .buttonStyle(.bordered)
                         .font(.system(size: 50))
@@ -49,6 +52,37 @@ struct ContentView: View {
                 }
             }
             .padding()
+        }
+    }
+    
+    func determineResult(move: String, shouldWin: Bool, choice: String) -> Bool {
+        switch move {
+        case "rock":
+            if shouldWin && choice == "paper" {
+                return true
+            } else if !shouldWin && choice == "scissors" {
+                return true
+            } else {
+                return false
+            }
+        case "paper":
+            if shouldWin && choice == "scissors" {
+                return true
+            } else if !shouldWin && choice == "rock" {
+                return true
+            } else {
+                return false
+            }
+        case "scissors":
+            if shouldWin && choice == "rock" {
+                return true
+            } else if !shouldWin && choice == "paper" {
+                return true
+            } else {
+                return false
+            }
+        default:
+            return false
         }
     }
 }
