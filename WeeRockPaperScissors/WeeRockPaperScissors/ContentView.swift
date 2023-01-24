@@ -14,6 +14,9 @@ struct ContentView: View {
     @State private var shouldWin = Bool.random()
     @State private var score = 0
     @State private var turn = 0
+    @State private var resultTitle = ""
+    @State private var showResult = false
+    @State private var gameOver = false
     
     var body: some View {
         ZStack {
@@ -25,14 +28,16 @@ struct ContentView: View {
                     .font(.largeTitle.bold())
                 
                 VStack(spacing: 15) {
+                    Text("Turn \(turn + 1)")
+                        .font(.body)
                     Text("Computer picks")
                         .font(.title)
                     Text(move[selectedMove].uppercased())
-                        .font(.system(size: 100))
-                    Text("and want you to")
+                        .font(.system(size: 50))
+                    Text("and wants you to")
                         .font(.title)
                     Text(shouldWin ? "WIN" : "LOSE")
-                        .font(.title.bold())
+                        .font(.system(size: 50))
                 }
                 .frame(maxWidth: .infinity)
                 .padding(20)
@@ -41,48 +46,76 @@ struct ContentView: View {
                 HStack {
                     ForEach(0..<3) { number in
                         Button(move[number]) {
-                            if determineResult(move: move[selectedMove], shouldWin: shouldWin, choice: move[number]) {
-                                score += 1
-                            }
-                            print("Score: \(score)")
+                            determineResult(move: move[selectedMove], shouldWin: shouldWin, choice: move[number])
                         }
                         .buttonStyle(.bordered)
-                        .font(.system(size: 50))
+                        .font(.system(size: 30))
                     }
                 }
             }
             .padding()
         }
+        .alert(resultTitle, isPresented: $showResult) {
+            Button("Continue", action: askQuestion)
+        } message: {
+            Text("Keep going!")
+        }
+        .alert("Game over", isPresented: $gameOver) {
+            Button("Play again") {
+                score = 0
+                turn = 0
+            }
+        } message: {
+            Text("You scored \(score) out of 10")
+        }
     }
     
-    func determineResult(move: String, shouldWin: Bool, choice: String) -> Bool {
+    func determineResult(move: String, shouldWin: Bool, choice: String) {
         switch move {
         case "rock":
             if shouldWin && choice == "paper" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else if !shouldWin && choice == "scissors" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else {
-                return false
+                resultTitle = "Wrong!"
             }
         case "paper":
             if shouldWin && choice == "scissors" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else if !shouldWin && choice == "rock" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else {
-                return false
+                resultTitle = "Wrong!"
             }
         case "scissors":
             if shouldWin && choice == "rock" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else if !shouldWin && choice == "paper" {
-                return true
+                score += 1
+                resultTitle = "Correct!"
             } else {
-                return false
+                resultTitle = "Wrong!"
             }
         default:
-            return false
+            resultTitle = "Wrong!"
+        }
+        
+        showResult = true
+    }
+    
+    func askQuestion() {
+        if turn < 9 {
+            selectedMove = Int.random(in: 0...2)
+            shouldWin = Bool.random()
+            turn += 1
+        } else {
+            gameOver = true
         }
     }
 }
