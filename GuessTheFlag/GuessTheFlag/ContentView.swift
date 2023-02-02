@@ -10,12 +10,17 @@ import SwiftUI
 struct FlagImage: View {
     var countries: [String]
     var number: Int
+    var tappedButton: Int
     
     var body: some View {
         Image(countries[number])
             .renderingMode(.original)
             .clipShape(Capsule())
             .shadow(radius: 5)
+            .rotation3DEffect(.degrees(tappedButton == number ? 360 : 0), axis: (x:0, y:1, z:0))
+            .opacity(tappedButton == -1 || tappedButton == number ? 1.0 : 0.25)
+            .blur(radius: tappedButton == -1 || tappedButton == number ? 0.0 : 10.0)
+            .animation(.default, value: tappedButton)
     }
 }
 
@@ -28,6 +33,8 @@ struct ContentView: View {
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
+    
+    @State private var tappedButton = -1
     
     var body: some View {
         ZStack {
@@ -56,8 +63,9 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            FlagImage(countries: countries, number: number)
+                            FlagImage(countries: countries, number: number, tappedButton: tappedButton)
                         }
+                        
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -93,6 +101,8 @@ struct ContentView: View {
     }
     
     func flagTapped(_ number: Int) {
+        tappedButton = number
+        
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 1
@@ -108,6 +118,7 @@ struct ContentView: View {
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
             turn += 1
+            tappedButton = -1
         } else {
             gameOver = true
         }
