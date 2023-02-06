@@ -8,66 +8,71 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var settingsVisible = true
+    @State private var startGame = false
     @State private var timesTable = 5
     @State private var selectedQuestionsIndex = 0
     var numberOfQuestions = [5, 10, 20]
     
     var body: some View {
-        ZStack {
-            LinearGradient(colors: [.teal, .blue], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-            
-            if settingsVisible {
-                // Settings view
-                VStack {
-                    VStack(spacing: 10) {
-                        Text("Wee Multiplication")
-                            .font(.largeTitle.bold())
-                        
-                        Text("Set up your game")
-                            .font(.title.bold())
-                        
-                        Section("Which multiplication table will we practice?") {
-                            Picker("times table", selection: $timesTable) {
+        NavigationView {
+            ZStack {
+                LinearGradient(colors: [.teal, .blue], startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
+                
+                VStack(spacing: 10) {
+                    if !startGame {
+                        Section {
+                            Text("Set up your game!")
+                                .font(.title.bold())
+                            
+                            Text("Which multiplication table will we practice?")
+                            
+                            Picker("Times table", selection: $timesTable) {
                                 ForEach(2..<13) {
                                     Text("\($0) times table")
                                 }
                             }
                             .pickerStyle(.wheel)
-                        }
-                        
-                        Section("And how many questions would you like?") {
-                            Picker("Number of questions", selection: $selectedQuestionsIndex) {
+                            
+                            Text("How many questions would you like?")
+                            
+                            Picker("Questions", selection: $selectedQuestionsIndex) {
                                 ForEach(0..<numberOfQuestions.count, id: \.self) {
                                     Text("\(numberOfQuestions[$0])")
                                 }
                             }
                             .pickerStyle(.segmented)
+                            
+                            
+                            Button("Start game") {
+                                withAnimation {
+                                    startGame = true
+                                }
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
-                        
-                        Button("Start game") {
-                            settingsVisible = false
-                        }
-                        .buttonStyle(.borderedProminent)
                     }
-                    .navigationTitle("Wee Multiplication")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.thinMaterial)
+                    
+                    if startGame {
+                        Section {
+                            var actualTimesTable  = timesTable + 2
+                            
+                            Text("You chose the \(actualTimesTable) times table and \(numberOfQuestions[selectedQuestionsIndex]) questions.")
+                            
+                            Button("End game") {
+                                withAnimation {
+                                    startGame = false
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
                 }
                 .padding()
-            } else {
-                // Game view
-                VStack {
-                    Button("Back to settings") {
-                        settingsVisible = true
-                    }
-                    .background(.white)
-                    .foregroundColor(.teal)
-                    .fontWeight(.bold)
-                }
+                .frame(maxWidth: .infinity)
+                .background(.thinMaterial)
             }
+            .navigationTitle("Wee Multiplication")
         }
     }
 }
