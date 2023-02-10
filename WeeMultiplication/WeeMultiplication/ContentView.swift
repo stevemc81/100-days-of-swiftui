@@ -7,11 +7,19 @@
 
 import SwiftUI
 
+struct Question {
+    let question: String
+    let answer: Int
+}
+
 struct ContentView: View {
     @State private var startGame = false
     @State private var timesTable = 5
     @State private var selectedQuestionsIndex = 0
+    @State private var questions: [Question] = []
+    
     var numberOfQuestions = [5, 10, 20]
+    
     
     var body: some View {
         NavigationView {
@@ -46,6 +54,8 @@ struct ContentView: View {
                             
                             Button("Start game") {
                                 withAnimation {
+                                    let actualTimesTable  = timesTable + 2
+                                    generateQs(for: actualTimesTable)
                                     startGame = true
                                 }
                             }
@@ -55,9 +65,14 @@ struct ContentView: View {
                     
                     if startGame {
                         Section {
-                            var actualTimesTable  = timesTable + 2
+                            ForEach(questions, id: \.question) { q in
+                                HStack {
+                                    Text("\(q.question)")
+                                    Text("\(q.answer)")
+                                }
+                            }
                             
-                            Text("You chose the \(actualTimesTable) times table and \(numberOfQuestions[selectedQuestionsIndex]) questions.")
+                            //Text("\(questions[0].question)")
                             
                             Button("End game") {
                                 withAnimation {
@@ -75,6 +90,19 @@ struct ContentView: View {
             .navigationTitle("Wee Multiplication")
         }
     }
+    
+    func generateQs(for timesTable: Int) {
+        questions.removeAll()
+        
+        for _ in 1...numberOfQuestions[selectedQuestionsIndex] {
+            let num = Int.random(in: 1...12)
+            let q = "\(timesTable) x \(num) ="
+            let a = timesTable * num
+            let question: Question = Question(question: q, answer: a)
+            questions.append(question)
+        }
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
