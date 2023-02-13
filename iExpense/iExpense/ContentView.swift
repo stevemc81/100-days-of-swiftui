@@ -18,26 +18,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                Section("Business") {
-                    ForEach(expenses.items) { item in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(item.name)
-                                    .font(.headline)
-                                Text(item.type)
-                            }
-                            
-                            Spacer()
-                            
-                            Text(item.amount, format: localCurrency)
-                                .foregroundColor(item.amount < 10 ? .green : item.amount < 100 ? .blue : .red)
-                        }
-                    }
-                    .onDelete(perform: removeItems)
-                }
-                Section("Personal") {
-                    Text("personal expenses go here")
-                }
+                // Use the new view to display types of expenses in separate lists
+                ExpenseSection(title: "Business", expenses: expenses.businessItems, deleteItems: removeBusinessItems)
+                
+                ExpenseSection(title: "Personal", expenses: expenses.personalItems, deleteItems: removePersonalItems)
             }
             .navigationTitle("iExpense")
             .toolbar {
@@ -53,8 +37,28 @@ struct ContentView: View {
         }
     }
     
-    func removeItems(at offsets: IndexSet) {
-        expenses.items.remove(atOffsets: offsets)
+    // Expand this function to take an array so we can delete an items from either business or personal
+    func removeItems(at offsets: IndexSet, in inputArray: [ExpenseItem]) {
+        var objectsToDelete = IndexSet()
+        
+        for offset in offsets {
+            let item = inputArray[offset]
+            
+            if let index = expenses.items.firstIndex(of: item) {
+                objectsToDelete.insert(index)
+            }
+        }
+
+        expenses.items.remove(atOffsets: objectsToDelete)
+    }
+    
+    // These methods use the main removeItems one to delete an item from a particular array
+    func removePersonalItems(at offsets: IndexSet) {
+        removeItems(at: offsets, in: expenses.personalItems)
+    }
+    
+    func removeBusinessItems(at offsets: IndexSet) {
+        removeItems(at: offsets, in: expenses.businessItems)
     }
 }
 

@@ -28,4 +28,13 @@ class Expenses: ObservableObject {
         
         items = []
     }
+    
+    // Generate two new arrays for business and personal expenses from the main array that is being added to (items)
+    var personalItems: [ExpenseItem] {
+        items.filter { $0.type == "Personal" }
+    }
+    
+    var businessItems: [ExpenseItem] {
+        items.filter { $0.type == "Business" }
+    }
 }

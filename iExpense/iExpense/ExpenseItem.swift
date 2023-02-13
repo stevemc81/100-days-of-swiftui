@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ExpenseItem: Identifiable, Codable {
+// Conform to Equatable so we can get the index of item to remove it from the array when deleting
+struct ExpenseItem: Identifiable, Codable, Equatable {
     var id = UUID()
     let name: String
     let type: String
