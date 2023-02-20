@@ -17,9 +17,12 @@ struct ContentView: View {
     @State private var timesTable = 5
     @State private var selectedQuestionsIndex = 0
     @State private var questions: [Question] = []
+    @State private var currentQuestion = 0
+    @State private var score = 0
+    @State private var response = 0
+    @State private var showResult = false
     
     var numberOfQuestions = [5, 10, 20]
-    
     
     var body: some View {
         NavigationView {
@@ -65,14 +68,20 @@ struct ContentView: View {
                     
                     if startGame {
                         Section {
-                            ForEach(questions, id: \.question) { q in
-                                HStack {
-                                    Text("\(q.question)")
-                                    Text("\(q.answer)")
-                                }
-                            }
+                            Text("Your score: \(score)")
+                                .font(.headline)
                             
-                            //Text("\(questions[0].question)")
+                            HStack {
+                                Text(questions[currentQuestion].question)
+                                
+                                TextField("Answer", value: $response, format: .number)
+                                    .textFieldStyle(.roundedBorder)
+                                
+                                Button("Submit") {
+                                    checkAnswer(userResponse: response)
+                                }
+                                .buttonStyle(.borderedProminent)
+                            }
                             
                             Button("End game") {
                                 withAnimation {
@@ -80,6 +89,11 @@ struct ContentView: View {
                                 }
                             }
                             .buttonStyle(.bordered)
+                        }
+                        .alert("Result", isPresented: $showResult) {
+                            Button("Continue") {
+                                //
+                            }
                         }
                     }
                 }
@@ -103,6 +117,14 @@ struct ContentView: View {
         }
     }
     
+    func checkAnswer(userResponse: Int) {
+        if userResponse == questions[currentQuestion].answer {
+            score += 1
+        }
+        
+        currentQuestion += 1
+        showResult = true
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
