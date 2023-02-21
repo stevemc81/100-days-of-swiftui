@@ -14,13 +14,18 @@ struct Question {
 
 struct ContentView: View {
     @State private var startGame = false
+    
     @State private var timesTable = 5
     @State private var selectedQuestionsIndex = 0
     @State private var questions: [Question] = []
+    @State private var maxQuestions = 0
+    
     @State private var currentQuestion = 0
     @State private var score = 0
     @State private var response = 0
+    
     @State private var showResult = false
+    @State private var alertTitle = ""
     
     var numberOfQuestions = [5, 10, 20]
     
@@ -90,11 +95,6 @@ struct ContentView: View {
                             }
                             .buttonStyle(.bordered)
                         }
-                        .alert("Result", isPresented: $showResult) {
-                            Button("Continue") {
-                                //
-                            }
-                        }
                     }
                 }
                 .padding()
@@ -103,6 +103,11 @@ struct ContentView: View {
             }
             .navigationTitle("Wee Multiplication")
         }
+//        .alert(alertTitle, isPresented: $showResult) {
+//            Button("Continue", action: nextQuestion)
+//        } message: {
+//            Text("Your score is \(score)")
+//        }
     }
     
     func generateQs(for timesTable: Int) {
@@ -115,6 +120,8 @@ struct ContentView: View {
             let question: Question = Question(question: q, answer: a)
             questions.append(question)
         }
+        
+        maxQuestions = numberOfQuestions[selectedQuestionsIndex]
     }
     
     func checkAnswer(userResponse: Int) {
@@ -122,8 +129,22 @@ struct ContentView: View {
             score += 1
         }
         
-        currentQuestion += 1
-        showResult = true
+        if currentQuestion < maxQuestions {
+            nextQuestion()
+        } else {
+            startGame = false
+        }
+    }
+    
+    func nextQuestion() {
+        //if currentQuestion < numberOfQuestions[selectedQuestionsIndex] {
+            print("currentQuestion: \(currentQuestion)")
+            print("maxQuestion: \(maxQuestions)")
+            currentQuestion += 1
+            response = 0
+//        } else {
+//            startGame = false
+//        }
     }
 }
 
