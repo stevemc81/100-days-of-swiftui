@@ -13,138 +13,119 @@ struct Question {
 }
 
 struct ContentView: View {
-    @State private var startGame = false
+    @State private var showingSettings = true           // Is settings screen shown?
+    @State private var multiplicationTable = 5          // Default value for times table
+    @State private var numberOfQuestionsIndex = 0       // Default value for number of questions to ask
+    @State private var questions: [Question] = []       // Array of questions
+    @State private var isGameOver = false               // Is the game over?
+    @State private var gameOverMessage = ""             // Message to show at end of game
+    @State private var score = 0                        // Player's score
+    @State private var questionNumber = 0               // Which question the player is on
+    @State private var userAnswer = ""                  // Player's current answer as a string
     
-    @State private var timesTable = 5
-    @State private var selectedQuestionsIndex = 0
-    @State private var questions: [Question] = []
-    @State private var maxQuestions = 0
-    
-    @State private var currentQuestion = 0
-    @State private var score = 0
-    @State private var response = 0
-    
-    @State private var showResult = false
-    @State private var alertTitle = ""
-    
-    var numberOfQuestions = [5, 10, 20]
+    var numberOfQuestions = [5, 10, 20]                 // Array of number of questions options
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                LinearGradient(colors: [.teal, .blue], startPoint: .top, endPoint: .bottom)
-                    .ignoresSafeArea()
-                
+        if showingSettings {
                 VStack(spacing: 10) {
-                    if !startGame {
-                        Section {
-                            Text("Set up your game!")
-                                .font(.title.bold())
-                            
-                            Text("Which multiplication table will we practice?")
-                            
-                            Picker("Times table", selection: $timesTable) {
-                                ForEach(2..<13) {
-                                    Text("\($0) times table")
-                                }
-                            }
-                            .pickerStyle(.wheel)
-                            
-                            Text("How many questions would you like?")
-                            
-                            Picker("Questions", selection: $selectedQuestionsIndex) {
-                                ForEach(0..<numberOfQuestions.count, id: \.self) {
-                                    Text("\(numberOfQuestions[$0])")
-                                }
-                            }
-                            .pickerStyle(.segmented)
-                            
-                            
-                            Button("Start game") {
-                                withAnimation {
-                                    let actualTimesTable  = timesTable + 2
-                                    generateQs(for: actualTimesTable)
-                                    startGame = true
-                                }
-                            }
-                            .buttonStyle(.borderedProminent)
-                        }
+                    Group {
+                        Spacer()
+                        
+                        Text("Settings")
+                            .font(.largeTitle.bold())
                     }
                     
-                    if startGame {
-                        Section {
-                            Text("Your score: \(score)")
-                                .font(.headline)
-                            
-                            HStack {
-                                Text(questions[currentQuestion].question)
-                                
-                                TextField("Answer", value: $response, format: .number)
-                                    .textFieldStyle(.roundedBorder)
-                                
-                                Button("Submit") {
-                                    checkAnswer(userResponse: response)
-                                }
-                                .buttonStyle(.borderedProminent)
+                    Group {
+                        Spacer()
+                        
+                        Text("Choose times table")
+                            .font(.title2.bold())
+                        
+                        Stepper("Practice my \(multiplicationTable) times table", value: $multiplicationTable, in: 2...12)
+                    }
+
+                    Group {
+                        Spacer()
+                        
+                        Text("Choose number of questions")
+                            .font(.title2.bold())
+                        
+                        Picker(selection: $numberOfQuestionsIndex, label: Text("Number of questions")) {
+                            ForEach(0..<numberOfQuestions.count, id: \.self) {
+                                Text("\(numberOfQuestions[$0])")
                             }
-                            
-                            Button("End game") {
-                                withAnimation {
-                                    startGame = false
-                                }
-                            }
-                            .buttonStyle(.bordered)
                         }
+                        .pickerStyle(.segmented)
+                    }
+                    
+                    Group {
+                        Spacer()
+                
+                        Button("Start game") {
+                            generateQuestions()
+                            showingSettings = false
+                        }
+                        .buttonStyle(.borderedProminent)
+                        
+                        Spacer()
                     }
                 }
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(.thinMaterial)
+        } else {
+            VStack(spacing: 10) {
+                Text("Score: \(score)")
+                    .font(.largeTitle.bold())
+                
+                Spacer()
+                
+                Text("\(questions[questionNumber].question)")
+                
+                TextField("Answer?", text: $userAnswer)
+                
+                Button("Check!") {
+                    checkAnswer(response: Int(userAnswer) ?? 0, answer: questions[questionNumber].answer)
+                }
+                
+                Spacer()
             }
-            .navigationTitle("Wee Multiplication")
+            .padding()
+            .alert("Game over", isPresented: $isGameOver) {
+                Button("Play again") {
+                    showingSettings = true
+                    userAnswer = ""
+                    score = 0
+                    gameOverMessage = ""
+                    questionNumber = 0
+                }
+            } message: {
+                Text(gameOverMessage)
+            }
         }
-//        .alert(alertTitle, isPresented: $showResult) {
-//            Button("Continue", action: nextQuestion)
-//        } message: {
-//            Text("Your score is \(score)")
-//        }
     }
     
-    func generateQs(for timesTable: Int) {
+    func generateQuestions() {
         questions.removeAll()
         
-        for _ in 1...numberOfQuestions[selectedQuestionsIndex] {
-            let num = Int.random(in: 1...12)
-            let q = "\(timesTable) x \(num) ="
-            let a = timesTable * num
-            let question: Question = Question(question: q, answer: a)
+        for _ in 1...numberOfQuestions[numberOfQuestionsIndex] {
+            let number = Int.random(in: 1...12)
+            let question = Question(question: "\(multiplicationTable) x \(number) =", answer: multiplicationTable * number)
             questions.append(question)
         }
-        
-        maxQuestions = numberOfQuestions[selectedQuestionsIndex]
     }
     
-    func checkAnswer(userResponse: Int) {
-        if userResponse == questions[currentQuestion].answer {
+    func checkAnswer(response: Int, answer: Int) {
+        if response == answer {
             score += 1
         }
+        userAnswer = ""
         
-        if currentQuestion < maxQuestions {
-            nextQuestion()
+        if questionNumber < numberOfQuestions[numberOfQuestionsIndex] - 1 {
+            questionNumber += 1
         } else {
-            startGame = false
+            gameOverMessage = "Your score is \(score)"
+            isGameOver = true
         }
-    }
-    
-    func nextQuestion() {
-        //if currentQuestion < numberOfQuestions[selectedQuestionsIndex] {
-            print("currentQuestion: \(currentQuestion)")
-            print("maxQuestion: \(maxQuestions)")
-            currentQuestion += 1
-            response = 0
-//        } else {
-//            startGame = false
-//        }
+        
     }
 }
 
