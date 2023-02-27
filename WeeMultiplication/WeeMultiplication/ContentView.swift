@@ -78,12 +78,17 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Text("\(questions[questionNumber].question)")
+                Text("Question \(questionNumber + 1) of \(numberOfQuestions[numberOfQuestionsIndex])")
                 
-                TextField("Answer?", text: $userAnswer)
-                
-                Button("Check!") {
-                    checkAnswer(response: Int(userAnswer) ?? 0, answer: questions[questionNumber].answer)
+                HStack {
+                    Text("\(questions[questionNumber].question)")
+                    
+                    TextField("Answer?", text: $userAnswer)
+                    
+                    Button("Check!") {
+                        checkAnswer(response: Int(userAnswer) ?? 0, answer: questions[questionNumber].answer)
+                    }
+                    .buttonStyle(.borderedProminent)
                 }
                 
                 Spacer()
