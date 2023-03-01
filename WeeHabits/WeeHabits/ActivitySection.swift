@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ActivitySection: View {
     let activities: [Activity]
+    let deleteActivities: (IndexSet) -> Void
     
     var body: some View {
         Section {
@@ -19,16 +20,16 @@ struct ActivitySection: View {
                     VStack(alignment: .leading) {
                         Text(activity.title)
                             .font(.headline)
-                        //Text(activity.description)
                     }
                 }
             }
+            .onDelete(perform: deleteActivities)
         }
     }
 }
 
 struct ActivitySection_Previews: PreviewProvider {
     static var previews: some View {
-        ActivitySection(activities: [])
+        ActivitySection(activities: [], deleteActivities: { _ in })
     }
 }

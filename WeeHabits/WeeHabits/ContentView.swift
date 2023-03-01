@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ActivitySection(activities: activities.activities)
+                ActivitySection(activities: activities.activities, deleteActivities: removeActivities)
             }
             .navigationTitle("Wee Habits")
             .toolbar {
@@ -28,6 +28,10 @@ struct ContentView: View {
                 AddView(activities: activities)
             }
         }
+    }
+    
+    func removeActivities(at offsets: IndexSet) {
+        activities.activities.remove(atOffsets: offsets)
     }
 }
 
