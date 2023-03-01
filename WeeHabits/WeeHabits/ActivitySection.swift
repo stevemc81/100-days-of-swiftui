@@ -10,12 +10,13 @@ import SwiftUI
 struct ActivitySection: View {
     let activities: [Activity]
     let deleteActivities: (IndexSet) -> Void
+    @ObservedObject var activitiesClass: Activities
     
     var body: some View {
         Section {
             ForEach(activities) { activity in
                 NavigationLink {
-                    DetailsView(activity: activity)
+                    DetailsView(activity: activity, activities: activitiesClass)
                 } label: {
                     VStack(alignment: .leading) {
                         Text(activity.title)
@@ -30,6 +31,6 @@ struct ActivitySection: View {
 
 struct ActivitySection_Previews: PreviewProvider {
     static var previews: some View {
-        ActivitySection(activities: [], deleteActivities: { _ in })
+        ActivitySection(activities: [], deleteActivities: { _ in }, activitiesClass: Activities())
     }
 }

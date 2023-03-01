@@ -12,4 +12,5 @@ struct Activity: Identifiable, Codable, Equatable {
     var id = UUID()
     let title: String
     let description: String
+    var completed = 0
 }

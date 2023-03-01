@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ActivitySection(activities: activities.activities, deleteActivities: removeActivities)
+                ActivitySection(activities: activities.activities, deleteActivities: removeActivities, activitiesClass: activities)
             }
             .navigationTitle("Wee Habits")
             .toolbar {
