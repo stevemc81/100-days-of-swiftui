@@ -13,7 +13,19 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(users, id: \.id) { user in
-                Text("\(user.name)")
+                HStack {
+                    Text("\(user.name)")
+                    
+                    if user.isActive {
+                        Text("Active")
+                            .foregroundColor(.green)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    } else {
+                        Text("Offline")
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
             }
             .navigationTitle("Friend Face")
             .task {
