@@ -12,10 +12,11 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @State private var lastNameFilter = "A"
     @State private var filterType = FilterType.begins
+    @State private var sortDescriptors = [SortDescriptor<Singer>]()
     
     var body: some View {
         VStack {
-            FilteredList(filter: lastNameFilter, filterType: filterType)
+            FilteredList(filter: lastNameFilter, filterType: filterType, sortDescriptors: sortDescriptors)
             
             Button("Add Examples") {
                 let taylor = Singer(context: moc)
@@ -47,6 +48,14 @@ struct ContentView: View {
             
             Button("CONTAINS[c] filter") {
                 filterType = .contains
+            }
+            
+            Button("Sort A-Z") {
+                sortDescriptors = [SortDescriptor(\.firstName)]
+            }
+            
+            Button("Sort Z-A") {
+                sortDescriptors = [SortDescriptor(\.firstName, order: .reverse)]
             }
         }
     }
