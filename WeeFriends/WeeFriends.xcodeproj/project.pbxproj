@@ -13,6 +13,7 @@
 		AAFEE08B29BA2323003948C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAFEE08A29BA2323003948C9 /* Preview Assets.xcassets */; };
 		AAFEE09229BA23AA003948C9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFEE09129BA23AA003948C9 /* User.swift */; };
 		AAFEE09429BA24FE003948C9 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFEE09329BA24FE003948C9 /* Friend.swift */; };
+		AAFEE09629BB280E003948C9 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFEE09529BB280E003948C9 /* DetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		AAFEE08A29BA2323003948C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AAFEE09129BA23AA003948C9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AAFEE09329BA24FE003948C9 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		AAFEE09529BB280E003948C9 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				AAFEE08329BA2321003948C9 /* WeeFriendsApp.swift */,
 				AAFEE08529BA2321003948C9 /* ContentView.swift */,
+				AAFEE09529BB280E003948C9 /* DetailsView.swift */,
 				AAFEE09129BA23AA003948C9 /* User.swift */,
 				AAFEE09329BA24FE003948C9 /* Friend.swift */,
 				AAFEE08729BA2323003948C9 /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFEE08629BA2321003948C9 /* ContentView.swift in Sources */,
+				AAFEE09629BB280E003948C9 /* DetailsView.swift in Sources */,
 				AAFEE08429BA2321003948C9 /* WeeFriendsApp.swift in Sources */,
 				AAFEE09229BA23AA003948C9 /* User.swift in Sources */,
 				AAFEE09429BA24FE003948C9 /* Friend.swift in Sources */,

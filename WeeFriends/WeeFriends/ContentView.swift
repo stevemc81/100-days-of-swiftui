@@ -13,17 +13,31 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(users, id: \.id) { user in
-                HStack {
-                    Text("\(user.name)")
-                    
-                    if user.isActive {
-                        Text("Active")
-                            .foregroundColor(.green)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    } else {
-                        Text("Offline")
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                NavigationLink {
+                    DetailsView(user: user)
+                } label: {
+                    HStack {
+                        if user.isActive {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(.green)
+                                .font(.system(size: 7))
+                        } else {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(.red)
+                                .font(.system(size: 7))
+                        }
+                        
+                        Text("\(user.name)")
+                        
+                        if user.isActive {
+                            Text("Active")
+                                .foregroundColor(.green)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        } else {
+                            Text("Offline")
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
                     }
                 }
             }
@@ -51,13 +65,15 @@ struct ContentView: View {
         // Set the date decoding strategy
         decoder.dateDecodingStrategy = .iso8601
         
-        // Fetch data
-        do {
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let decodedData = try decoder.decode([User].self, from: data)
-            users = decodedData
-        } catch {
-            print(error)
+        // Fetch data if users array is empty (i.e. don't re-request the data all the time)
+        if users.isEmpty {
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let decodedData = try decoder.decode([User].self, from: data)
+                users = decodedData
+            } catch {
+                print(error)
+            }
         }
     }
 }
