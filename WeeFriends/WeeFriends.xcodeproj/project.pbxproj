@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AAA5B22E29BF603C00BDAFAC /* WeeFriends.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAA5B22C29BF603C00BDAFAC /* WeeFriends.xcdatamodeld */; };
+		AAA5B23829BF67EC00BDAFAC /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA5B23729BF67EC00BDAFAC /* DataController.swift */; };
+		AAEE4EC329BF72D400EB5FC0 /* CachedFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE4EBF29BF72D400EB5FC0 /* CachedFriend+CoreDataClass.swift */; };
+		AAEE4EC429BF72D400EB5FC0 /* CachedFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE4EC029BF72D400EB5FC0 /* CachedFriend+CoreDataProperties.swift */; };
+		AAEE4EC529BF72D400EB5FC0 /* CachedUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE4EC129BF72D400EB5FC0 /* CachedUser+CoreDataClass.swift */; };
+		AAEE4EC629BF72D400EB5FC0 /* CachedUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE4EC229BF72D400EB5FC0 /* CachedUser+CoreDataProperties.swift */; };
 		AAFEE08429BA2321003948C9 /* WeeFriendsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFEE08329BA2321003948C9 /* WeeFriendsApp.swift */; };
 		AAFEE08629BA2321003948C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFEE08529BA2321003948C9 /* ContentView.swift */; };
 		AAFEE08829BA2323003948C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAFEE08729BA2323003948C9 /* Assets.xcassets */; };
@@ -17,6 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AAA5B22D29BF603C00BDAFAC /* WeeFriends.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WeeFriends.xcdatamodel; sourceTree = "<group>"; };
+		AAA5B23729BF67EC00BDAFAC /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		AAEE4EBF29BF72D400EB5FC0 /* CachedFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AAEE4EC029BF72D400EB5FC0 /* CachedFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AAEE4EC129BF72D400EB5FC0 /* CachedUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedUser+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AAEE4EC229BF72D400EB5FC0 /* CachedUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AAFEE08029BA2321003948C9 /* WeeFriends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeeFriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAFEE08329BA2321003948C9 /* WeeFriendsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeFriendsApp.swift; sourceTree = "<group>"; };
 		AAFEE08529BA2321003948C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,11 +69,17 @@
 		AAFEE08229BA2321003948C9 /* WeeFriends */ = {
 			isa = PBXGroup;
 			children = (
+				AAEE4EBF29BF72D400EB5FC0 /* CachedFriend+CoreDataClass.swift */,
+				AAEE4EC029BF72D400EB5FC0 /* CachedFriend+CoreDataProperties.swift */,
+				AAEE4EC129BF72D400EB5FC0 /* CachedUser+CoreDataClass.swift */,
+				AAEE4EC229BF72D400EB5FC0 /* CachedUser+CoreDataProperties.swift */,
+				AAA5B23729BF67EC00BDAFAC /* DataController.swift */,
 				AAFEE08329BA2321003948C9 /* WeeFriendsApp.swift */,
 				AAFEE08529BA2321003948C9 /* ContentView.swift */,
 				AAFEE09529BB280E003948C9 /* DetailsView.swift */,
 				AAFEE09129BA23AA003948C9 /* User.swift */,
 				AAFEE09329BA24FE003948C9 /* Friend.swift */,
+				AAA5B22C29BF603C00BDAFAC /* WeeFriends.xcdatamodeld */,
 				AAFEE08729BA2323003948C9 /* Assets.xcassets */,
 				AAFEE08929BA2323003948C9 /* Preview Content */,
 			);
@@ -147,9 +165,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFEE08629BA2321003948C9 /* ContentView.swift in Sources */,
+				AAA5B22E29BF603C00BDAFAC /* WeeFriends.xcdatamodeld in Sources */,
+				AAEE4EC529BF72D400EB5FC0 /* CachedUser+CoreDataClass.swift in Sources */,
+				AAA5B23829BF67EC00BDAFAC /* DataController.swift in Sources */,
+				AAEE4EC429BF72D400EB5FC0 /* CachedFriend+CoreDataProperties.swift in Sources */,
 				AAFEE09629BB280E003948C9 /* DetailsView.swift in Sources */,
 				AAFEE08429BA2321003948C9 /* WeeFriendsApp.swift in Sources */,
+				AAEE4EC629BF72D400EB5FC0 /* CachedUser+CoreDataProperties.swift in Sources */,
 				AAFEE09229BA23AA003948C9 /* User.swift in Sources */,
+				AAEE4EC329BF72D400EB5FC0 /* CachedFriend+CoreDataClass.swift in Sources */,
 				AAFEE09429BA24FE003948C9 /* Friend.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +375,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AAA5B22C29BF603C00BDAFAC /* WeeFriends.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AAA5B22D29BF603C00BDAFAC /* WeeFriends.xcdatamodel */,
+			);
+			currentVersion = AAA5B22D29BF603C00BDAFAC /* WeeFriends.xcdatamodel */;
+			path = WeeFriends.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AAFEE07829BA2321003948C9 /* Project object */;
 }

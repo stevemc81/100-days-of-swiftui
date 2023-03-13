@@ -10,9 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @State private var users = [User]()
     
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var cachedUsers: FetchedResults<CachedUser>
+    
     var body: some View {
         NavigationView {
-            List(users, id: \.id) { user in
+            List(cachedUsers) { user in
                 NavigationLink {
                     DetailsView(user: user)
                 } label: {
@@ -27,7 +30,7 @@ struct ContentView: View {
                                 .font(.system(size: 7))
                         }
                         
-                        Text("\(user.name)")
+                        Text("\(user.name!)")
                         
                         if user.isActive {
                             Text("Active")
@@ -43,7 +46,36 @@ struct ContentView: View {
             }
             .navigationTitle("Friend Face")
             .task {
-                await loadData()
+                if cachedUsers.isEmpty {
+                    await loadData()
+                }
+                
+                await MainActor.run {
+                    for user in users {
+                        let newUser = CachedUser(context: moc)
+                        newUser.name = user.name
+                        newUser.id = user.id
+                        newUser.isActive = user.isActive
+                        newUser.age = Int16(user.age)
+                        newUser.about = user.about
+                        newUser.email = user.email
+                        newUser.address = user.address
+                        newUser.company = user.company
+                        newUser.registered = user.registered
+                        
+                        for friend in user.friends {
+                            let newFriend = CachedFriend(context: moc)
+                            newFriend.id = friend.id
+                            newFriend.name = friend.name
+                            newFriend.user = newUser
+                        }
+                        
+                        if moc.hasChanges {
+                            try? moc.save()
+                        }
+                    }
+                }
+                
             }
         }
     }

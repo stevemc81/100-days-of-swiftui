@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailsView: View {
-    let user: User
+    let user: CachedUser
     
     var body: some View {
         ScrollView {
@@ -17,10 +17,10 @@ struct DetailsView: View {
                     Text("Basics")
                         .font(.headline)
                     Text("Age: \(user.age)")
-                    Text("Company: \(user.company)")
-                    Text("Email: \(user.email)")
-                    Text("Address: \(user.address)")
-                    Text("Registered: \(user.registered.formatted(date: .abbreviated, time: .omitted))")
+                    Text("Company: \(user.company!)")
+                    Text("Email: \(user.email!)")
+                    Text("Address: \(user.address!)")
+                    Text("Registered: \(user.registered!.formatted(date: .abbreviated, time: .omitted))")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -29,16 +29,7 @@ struct DetailsView: View {
                 Group {
                     Text("Description")
                         .font(.headline)
-                    Text(user.about)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Spacer()
-                
-                Group {
-                    Text("Tags")
-                        .font(.headline)
-                    Text(commaSeparatedList(list: user.tags))
+                    Text(user.about!)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
@@ -47,8 +38,8 @@ struct DetailsView: View {
                 Group {
                     Text("Friends")
                         .font(.headline)
-                    ForEach(user.friends) { friend in
-                        Text(friend.name)
+                    ForEach(user.friendsArry) { friend in
+                        Text(friend.name!)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,7 +47,7 @@ struct DetailsView: View {
             }
             
         }
-        .navigationTitle(user.name)
+        .navigationTitle(user.name!)
         .navigationBarTitleDisplayMode(.inline)
         .padding()
         
